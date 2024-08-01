@@ -44,8 +44,8 @@ export default async function ItemList() {
           <div className="flex">
             <Sidebar />
             <div className='className="flex-1 p-[6.5rem]'>
-              {items.map((i) => (
-                <Link key={i.id} href={`/edit/${i.id}`} legacyBehavior>
+              {items?.map((i) => (
+                <Link key={i?.id} href={`/edit/${i?.id}`} legacyBehavior>
                   <div className="bg-white shadow-md rounded-lg h-60 border border-black flex mb-4 relative cursor-pointer">
                     <Image
                       src="/curry.png"
@@ -57,7 +57,7 @@ export default async function ItemList() {
 
                     <div className="flex-1 p-4">
                       <h3 className="text-[30px] font-semibold text-[#000000]">
-                        {i.title}
+                        {i?.title}
                       </h3>
                       <p className="text-[#000000] font-semibold">
                         {i?.description}
