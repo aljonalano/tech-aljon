@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const AddItems = () => {
   return (
@@ -25,10 +26,12 @@ const AddItems = () => {
       </button>
 
       <div className="flex flex-col md:flex-row bg-white p-6 rounded-lg shadow-lg w-[95%] z-20">
-        <img
-          src="https://via.placeholder.com/450"
+        <Image
+          src="/noImage.png"
           alt="Dish"
-          className="w-[457px] h-[401px] rounded-lg object-cover mr-4"
+          className="w-[457px] h-[401px] rounded-lg object-cover mr-4 cursor-pointer"
+          width={150}
+          height={150}
         />
         <form className="flex flex-col w-full mx-[2.5rem]">
           <div className="mb-4">
