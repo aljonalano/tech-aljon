@@ -17,14 +17,18 @@ const AddItems = () => {
   });
 
   const validateForm = () => {
-    const newErrors = {};
+    const newErrors = {
+      title: '',
+      description: '',
+      addedBy: '',
+    };
 
     if (!title) newErrors.title = 'Title is required.';
     if (!description) newErrors.description = 'Description is required.';
     if (!addedBy) newErrors.addedBy = 'Added by is required.';
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    return Object.values(newErrors).every((error) => !error);
   };
 
   const handleSubmit = async (e: any) => {
