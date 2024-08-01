@@ -60,15 +60,15 @@ export default async function ItemList() {
                         {i.title}
                       </h3>
                       <p className="text-[#000000] font-semibold">
-                        {i.description}
+                        {i?.description}
                       </p>
                       <a href="#" className="text-[#000000] text-[13px]">
                         See more
                       </a>
                       <div className="flex justify-between mt-[13px] font-semibold text-[#000000]">
-                        <p className="text-sm ">Added by: {i.addedBy}</p>
+                        <p className="text-sm ">Added by: {i?.addedBy}</p>
                         <p className="text-sm">
-                          Date: {formatDate(i.createdAt)}
+                          Date: {formatDate(i?.createdAt)}
                         </p>
                       </div>
                     </div>
