@@ -1,13 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
-import Sidebar from '@/components/Sidebar';
 import Link from 'next/link';
+import Sidebar from './SideBar';
 
 const getItems = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items`);
 
     if (!res.ok) {
       throw new Error('Failed to fetch items');
