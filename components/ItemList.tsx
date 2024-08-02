@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import Sidebar from './SideBar';
+import NoRecord from './NoRecord';
 
 const getItems = async () => {
   try {
@@ -19,7 +20,7 @@ const getItems = async () => {
 export default async function ItemList() {
   const { items } = await getItems();
 
-  const formatDate = (dateString) => {
+  const formatDate = (dateString: any) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
@@ -31,20 +32,14 @@ export default async function ItemList() {
     <>
       {items.length === 0 ? (
         <>
-          <div className="flex items-center justify-center  h-[500px] bg-white rounded-lg shadow-lg m-[3rem]">
-            <div className="text-center">
-              <p className="font-inter text-4xl font-semibold leading-[59.3px]">
-                No Record Found!
-              </p>
-            </div>
-          </div>
+          <NoRecord />
         </>
       ) : (
         <>
           <div className="flex">
             <Sidebar />
             <div className='className="flex-1 p-[6.5rem]'>
-              {items?.map((i) => (
+              {items?.map((i: any) => (
                 <Link key={i?.id} href={`/edit/${i?.id}`} legacyBehavior>
                   <div className="bg-white shadow-md rounded-lg h-60 border border-black flex mb-4 relative cursor-pointer">
                     <Image
