@@ -5,6 +5,9 @@ const itemSchema = new Schema(
     title: String,
     description: String,
     addedBy: String,
+    emailAddress: String,
+    ingredients: String,
+    instructions: String,
   },
   {
     timestamps: true,

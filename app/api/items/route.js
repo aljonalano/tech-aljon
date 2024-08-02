@@ -3,9 +3,23 @@ import Item from '@/models/items';
 import { NextResponse } from 'next/server';
 
 export async function POST(request) {
-  const { title, description, addedBy } = await request.json();
+  const {
+    title,
+    description,
+    addedBy,
+    emailAddress,
+    ingredients,
+    instructions,
+  } = await request.json();
   await connectMongoDB();
-  await Item.create({ title, description, addedBy });
+  await Item.create({
+    title,
+    description,
+    addedBy,
+    emailAddress,
+    ingredients,
+    instructions,
+  });
   return NextResponse.json({ message: 'Item Created' }, { status: 201 });
 }
 

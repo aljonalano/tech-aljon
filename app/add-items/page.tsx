@@ -10,10 +10,16 @@ const AddItems = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [addedBy, setAddedBy] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [instructions, setIntructions] = useState('');
   const [errors, setErrors] = useState({
     title: '',
     description: '',
     addedBy: '',
+    emailAddress: '',
+    ingredients: '',
+    instructions: '',
   });
 
   const validateForm = () => {
@@ -21,11 +27,17 @@ const AddItems = () => {
       title: '',
       description: '',
       addedBy: '',
+      emailAddress: '',
+      ingredients: '',
+      instructions: '',
     };
 
     if (!title) newErrors.title = 'Title is required.';
     if (!description) newErrors.description = 'Description is required.';
     if (!addedBy) newErrors.addedBy = 'Added by is required.';
+    if (!emailAddress) newErrors.emailAddress = 'Email Address is required.';
+    if (!ingredients) newErrors.ingredients = 'Ingredients is required.';
+    if (!instructions) newErrors.instructions = 'Instructions is required.';
 
     setErrors(newErrors);
     return Object.values(newErrors).every((error) => !error);
@@ -44,7 +56,14 @@ const AddItems = () => {
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({ title, description, addedBy }),
+        body: JSON.stringify({
+          title,
+          description,
+          addedBy,
+          emailAddress,
+          ingredients,
+          instructions,
+        }),
       });
 
       if (res.ok) {
@@ -119,10 +138,18 @@ const AddItems = () => {
               Email Address
             </label>
             <input
+              value={emailAddress}
+              onChange={(e) => setEmailAddress(e.target.value)}
               type="email"
               id="email"
-              placeholder="Text field data"
-              className="w-full p-2 border border-gray-300 rounded"
+              placeholder={
+                errors.emailAddress
+                  ? 'Input Email address'
+                  : 'Email address here'
+              }
+              className={`border p-2 w-full ${
+                errors.emailAddress ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
           </div>
           <div className="mb-4">
@@ -170,9 +197,15 @@ const AddItems = () => {
               Ingredients
             </label>
             <textarea
+              onChange={(e) => setIngredients(e.target.value)}
+              value={ingredients}
               id="ingredients"
-              placeholder="Description here"
-              className="w-full p-2 border border-gray-300 rounded h-24"
+              placeholder={
+                errors.ingredients ? 'Input Ingredients' : 'Ingredients here'
+              }
+              className={`border p-2 w-full ${
+                errors.ingredients ? 'border-red-500' : 'border-gray-300'
+              }`}
             ></textarea>
           </div>
           <div className="mb-4">
@@ -183,9 +216,15 @@ const AddItems = () => {
               Instructions
             </label>
             <textarea
+              onChange={(e) => setIntructions(e.target.value)}
+              value={instructions}
               id="instructions"
-              placeholder="Description here"
-              className="w-full p-2 border border-gray-300 rounded h-24"
+              placeholder={
+                errors.instructions ? 'Input Instructions' : 'Instructions here'
+              }
+              className={`border p-2 w-full ${
+                errors.instructions ? 'border-red-500' : 'border-gray-300'
+              }`}
             ></textarea>
           </div>
           <div className="flex justify-end space-x-4">
