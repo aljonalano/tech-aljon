@@ -2,7 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const AddItems = () => {
+const EditItems = ({ params }) => {
+  const { id } = params;
   return (
     <div className="flex flex-col items-center bg-gray-100 min-h-screen">
       <button className="self-start mb-4 text-gray-700">
@@ -135,4 +136,4 @@ const AddItems = () => {
   );
 };
 
-export default AddItems;
+export default EditItems;
