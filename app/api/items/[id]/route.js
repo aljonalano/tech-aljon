@@ -8,9 +8,19 @@ export async function PUT(request, { params }) {
     newTitle: title,
     newDescription: description,
     newAddedBy: addedBy,
+    newEmailAddress: emailAddress,
+    newIngredients: ingredients,
+    newInstructions: instructions,
   } = await request.json();
   await connectMongoDB();
-  await Item.findByIdAndUpdate(id, { title, description, addedBy });
+  await Item.findByIdAndUpdate(id, {
+    title,
+    description,
+    addedBy,
+    emailAddress,
+    ingredients,
+    instructions,
+  });
   return NextResponse.json({ message: 'Item Updated' }, { status: 200 });
 }
 
