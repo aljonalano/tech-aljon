@@ -186,7 +186,6 @@ const EditItems = ({
           </div>
           <div className="flex justify-end space-x-4">
             <button
-              id={id._id}
               type="button"
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
