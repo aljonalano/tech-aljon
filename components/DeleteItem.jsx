@@ -22,7 +22,10 @@ export default function RemoveBtn({ id }) {
   };
 
   return (
-    <button onClick={removeItem} className="text-red-400">
+    <button
+      onClick={removeItem}
+      className="bg-red-500 text-white px-4 py-2 rounded"
+    >
       Delete
     </button>
   );

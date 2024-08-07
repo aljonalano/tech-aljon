@@ -185,12 +185,7 @@ const EditItems = ({
             ></textarea>
           </div>
           <div className="flex justify-end space-x-4">
-            <button
-              type="button"
-              className="bg-red-500 text-white px-4 py-2 rounded"
-            >
-              <DeleteItem />
-            </button>
+            <DeleteItem id={id} />
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded"
