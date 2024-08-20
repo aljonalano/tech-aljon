@@ -1,69 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { useForm } from 'react-hook-form';
+
+type FormValues = {
+  title: string;
+  description: string;
+  addedBy: string;
+  emailAddress: string;
+  ingredients: string;
+  instructions: string;
+};
 
 const AddItems = () => {
   const router = useRouter();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [addedBy, setAddedBy] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [instructions, setIntructions] = useState('');
-  const [errors, setErrors] = useState({
-    title: '',
-    description: '',
-    addedBy: '',
-    emailAddress: '',
-    ingredients: '',
-    instructions: '',
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
 
-  const validateForm = () => {
-    const newErrors = {
-      title: '',
-      description: '',
-      addedBy: '',
-      emailAddress: '',
-      ingredients: '',
-      instructions: '',
-    };
-
-    if (!title) newErrors.title = 'Title is required.';
-    if (!description) newErrors.description = 'Description is required.';
-    if (!addedBy) newErrors.addedBy = 'Added by is required.';
-    if (!emailAddress) newErrors.emailAddress = 'Email Address is required.';
-    if (!ingredients) newErrors.ingredients = 'Ingredients is required.';
-    if (!instructions) newErrors.instructions = 'Instructions is required.';
-
-    setErrors(newErrors);
-    return Object.values(newErrors).every((error) => !error);
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      return; // Stop submission if validation fails
-    }
-
+  const onSubmit = async (data: FormValues) => {
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/items`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
         },
-        body: JSON.stringify({
-          title,
-          description,
-          addedBy,
-          emailAddress,
-          ingredients,
-          instructions,
-        }),
+        body: JSON.stringify(data),
       });
 
       if (res.ok) {
@@ -107,7 +74,7 @@ const AddItems = () => {
           height={150}
         />
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col w-full mx-[2.5rem]"
         >
           <div className="mb-4">
@@ -118,17 +85,19 @@ const AddItems = () => {
               Your Name
             </label>
             <input
-              onChange={(e) => setAddedBy(e.target.value)}
-              value={addedBy}
+              {...register('addedBy', { required: 'Your Name is required.' })}
               type="text"
               id="name"
-              placeholder={
-                errors.addedBy ? 'Input Your Name' : 'Text field data'
-              }
+              placeholder="Text field data"
               className={`border p-2 w-full ${
                 errors.addedBy ? 'border-red-500' : 'border-gray-300'
               }`}
             />
+            {errors.addedBy && (
+              <p className="text-red-500 text-xs italic">
+                {errors.addedBy.message}
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -138,19 +107,25 @@ const AddItems = () => {
               Email Address
             </label>
             <input
-              value={emailAddress}
-              onChange={(e) => setEmailAddress(e.target.value)}
+              {...register('emailAddress', {
+                required: 'Email Address is required.',
+                pattern: {
+                  value: /^[^@]+@[^@]+\.[^@]+$/,
+                  message: 'Invalid email address.',
+                },
+              })}
               type="email"
               id="email"
-              placeholder={
-                errors.emailAddress
-                  ? 'Input Email address'
-                  : 'Email address here'
-              }
+              placeholder="Email address here"
               className={`border p-2 w-full ${
                 errors.emailAddress ? 'border-red-500' : 'border-gray-300'
               }`}
             />
+            {errors.emailAddress && (
+              <p className="text-red-500 text-xs italic">
+                {errors.emailAddress.message}
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -160,15 +135,19 @@ const AddItems = () => {
               Title
             </label>
             <input
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              {...register('title', { required: 'Title is required.' })}
               type="text"
               id="title"
-              placeholder={errors.title ? 'Inpute Title' : 'Title'}
+              placeholder="Title"
               className={`border p-2 w-full ${
                 errors.title ? 'border-red-500' : 'border-gray-300'
               }`}
             />
+            {errors.title && (
+              <p className="text-red-500 text-xs italic">
+                {errors.title.message}
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -178,16 +157,20 @@ const AddItems = () => {
               Description
             </label>
             <textarea
-              onChange={(e) => setDescription(e.target.value)}
-              value={description}
+              {...register('description', {
+                required: 'Description is required.',
+              })}
               id="description"
-              placeholder={
-                errors.description ? 'Input Description' : 'Description here'
-              }
+              placeholder="Description here"
               className={`border p-2 w-full ${
                 errors.description ? 'border-red-500' : 'border-gray-300'
               }`}
             ></textarea>
+            {errors.description && (
+              <p className="text-red-500 text-xs italic">
+                {errors.description.message}
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -197,16 +180,20 @@ const AddItems = () => {
               Ingredients
             </label>
             <textarea
-              onChange={(e) => setIngredients(e.target.value)}
-              value={ingredients}
+              {...register('ingredients', {
+                required: 'Ingredients are required.',
+              })}
               id="ingredients"
-              placeholder={
-                errors.ingredients ? 'Input Ingredients' : 'Ingredients here'
-              }
+              placeholder="Ingredients here"
               className={`border p-2 w-full ${
                 errors.ingredients ? 'border-red-500' : 'border-gray-300'
               }`}
             ></textarea>
+            {errors.ingredients && (
+              <p className="text-red-500 text-xs italic">
+                {errors.ingredients.message}
+              </p>
+            )}
           </div>
           <div className="mb-4">
             <label
@@ -216,24 +203,22 @@ const AddItems = () => {
               Instructions
             </label>
             <textarea
-              onChange={(e) => setIntructions(e.target.value)}
-              value={instructions}
+              {...register('instructions', {
+                required: 'Instructions are required.',
+              })}
               id="instructions"
-              placeholder={
-                errors.instructions ? 'Input Instructions' : 'Instructions here'
-              }
+              placeholder="Instructions here"
               className={`border p-2 w-full ${
                 errors.instructions ? 'border-red-500' : 'border-gray-300'
               }`}
             ></textarea>
+            {errors.instructions && (
+              <p className="text-red-500 text-xs italic">
+                {errors.instructions.message}
+              </p>
+            )}
           </div>
           <div className="flex justify-end space-x-4">
-            {/* <button
-              type="button"
-              className="bg-red-500 text-white px-4 py-2 rounded"
-            >
-              Delete
-            </button> */}
             <button
               type="submit"
               className="bg-blue-500 text-white px-4 py-2 rounded"
